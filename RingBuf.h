@@ -25,20 +25,18 @@ RingBufCPP()
 */
 bool add(Type &obj)
 {
-    bool ret = false;
     RB_ATOMIC_START
     {
-        if (!isFull()) {
-            _buf[_head] = obj;
-            _head = (_head + 1)%MaxElements;
-            _numElements++;
+        _buf[_head] = obj;
+        _head = (_head + 1)%MaxElements;
 
-            ret = true;
+        if (!isFull()) {
+            _numElements++;
         }
     }
     RB_ATOMIC_END
 
-    return ret;
+    return true;
 }
 
 
